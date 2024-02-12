@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: micro-recipient
+spec:
+  selector:
+    app: micro-recipient
+  ports:
+    - protocol: TCP
+      port: 8083
+      targetPort: 8083
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micro-recipient
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micro-recipient
+  template:
+    metadata:
+      labels:
+        app: micro-recipient
+    spec:
+      containers:
+        - name: micro-recipient
+          image: valashchukd/micro-recipient:v2
+          ports:
+            - containerPort: 8083
